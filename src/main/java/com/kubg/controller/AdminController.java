@@ -189,7 +189,7 @@ public class AdminController {
 	public String delivery(OrderVO order) throws Exception {
 	 logger.info("post order view");
 	   
-	 adminService.delivery(order);
+	  adminService.delivery(order);
 
 	 return "redirect:/admin/shop/orderView?n=" + order.getOrderId();
 	}
