@@ -102,7 +102,7 @@ public class AdminController {
 	public void getGoodsview(@RequestParam("n") int gdsNum, Model model) throws Exception {
 		logger.info("get goods view");
 
-		GoodsViewVO goods = adminService.goodsView(gdsNum);
+		 GoodsViewVO goods = adminService.goodsView(gdsNum);
 
 		model.addAttribute("goods", goods);
 	}
