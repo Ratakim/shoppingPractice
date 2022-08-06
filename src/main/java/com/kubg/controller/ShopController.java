@@ -42,8 +42,8 @@ public class ShopController {
 							@RequestParam("l") int level, Model model) throws Exception {
 			logger.info("get llist");
 			
-			 List<GoodsViewVO> list = null;
-			 list = service.list(cateCode, level);
+		  List<GoodsViewVO> list = null;
+		  list = service.list(cateCode, level);
 		
 			model.addAttribute("list", list);
 			
