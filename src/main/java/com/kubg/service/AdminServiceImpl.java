@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.kubg.domain.CategoryVO;
 import com.kubg.domain.GoodsVO;
 import com.kubg.domain.GoodsViewVO;
+import com.kubg.domain.OrderListVO;
+import com.kubg.domain.OrderVO;
 import com.kubg.persistence.AdminDAO;
 
 @Service
@@ -50,6 +52,25 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void goodsDelete(int gdsNum) throws Exception {
 		dao.goodsDelete(gdsNum);
+		
+	}
+
+	@Override
+	public List<OrderVO> orderList() throws Exception {
+		
+		return dao.orderList();
+	}
+
+	@Override
+	public List<OrderListVO> orderView(OrderVO order) throws Exception {
+		
+		return dao.orderView(order);
+	}
+
+	@Override
+	public void delivery(OrderVO order) throws Exception {
+		
+		dao.delivery(order);
 		
 	}
 

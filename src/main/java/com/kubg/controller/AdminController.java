@@ -1,17 +1,11 @@
 package com.kubg.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kubg.domain.CategoryVO;
 import com.kubg.domain.GoodsVO;
 import com.kubg.domain.GoodsViewVO;
+import com.kubg.domain.OrderListVO;
+import com.kubg.domain.OrderVO;
 import com.kubg.service.AdminService;
 import com.kubg.utils.UploadFileUtils;
 
@@ -165,6 +161,37 @@ public class AdminController {
 	 adminService.goodsDelete(gdsNum);
 	 
 	 return "redirect:/admin/index";
+	}
+	
+	// 주문 목록
+	@RequestMapping(value = "/shop/orderList", method = RequestMethod.GET)
+	public void getOrderList(Model model) throws Exception {
+		
+		List<OrderVO> orderList = adminService.orderList();
+		
+		model.addAttribute("orderList", orderList);
+	}
+	
+	//주문 상세 목록
+	@RequestMapping(value = "/shop/orderView", method = RequestMethod.GET)
+	public void getOrderList(@RequestParam("n") String orderId,
+	      OrderVO order, Model model) throws Exception {
+	 logger.info("get order view");
+	 
+	 order.setOrderId(orderId);  
+	 List<OrderListVO> orderView = adminService.orderView(order);
+	 
+	 model.addAttribute("orderView", orderView);
+	}
+	
+	// 주문 상세 목록 - 상태 변경
+	@RequestMapping(value = "/shop/orderView", method = RequestMethod.POST)
+	public String delivery(OrderVO order) throws Exception {
+	 logger.info("post order view");
+	   
+	 adminService.delivery(order);
+
+	 return "redirect:/admin/shop/orderView?n=" + order.getOrderId();
 	}
 	
 	
