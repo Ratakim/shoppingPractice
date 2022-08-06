@@ -162,3 +162,8 @@ create sequence tbl_order_details_seq;
 alter table tbl_order_details
     add constraint tbl_order_details_orderId foreign key(orderId)
     references tbl_order(orderId);
+    
+    alter table tbl_order
+    add(
+        delivery    varchar2(20)    default '배송준비'
+    );
