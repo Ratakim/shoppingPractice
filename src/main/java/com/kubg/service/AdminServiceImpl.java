@@ -74,4 +74,10 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 
+	@Override
+	public void changeStock(GoodsVO goods) throws Exception {
+		dao.changeStock(goods);
+		
+	}
+
 }

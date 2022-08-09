@@ -351,260 +351,265 @@ section.replyList div.replyFooter button {
 
 </head>
 <body>
-	<div id="root">
-		<header id="header">
-			<div id="header_box">
-				<%@ include file="../include/header.jsp"%>
-			</div>
-		</header>
+<div id="root">
+	<header id="header">
+		<div id="header_box">
+			<%@ include file="../include/header.jsp" %>
+		</div>
+	</header>
 
-		<nav id="nav">
-			<div id="nav_box">
-				<%@ include file="../include/nav.jsp"%>
-			</div>
-		</nav>
-
-		<aside id="aside">
-			<div id="aside_box">
-				<%@ include file="../include/aside.jsp"%>
-			</div>
-		</aside>
-
-		<section id="container">
-			<div id="container_box">
-
-				<section id="content">
-					<form role="form" method="post">
-						<input type="hidden" name="gdsNum" value="${view.gdsNum}" />
-					</form>
-
-					<div class="goods">
-						<div class="goodsImg">
-							<img src="${view.gdsImg}">
-						</div>
-
-						<div class="goodsInfo">
-							<p class="gdsName">
-								<span>상품명</span>${view.gdsName}</p>
-
-							<p class="cateName">
-								<span>카테고리</span>${view.cateName}</p>
-
-							<p class="gdsPrice">
-								<span>가격 </span>
-								<fmt:formatNumber pattern="###,###,###" value="${view.gdsPrice}" />
-								원
-							</p>
-
-							<p class="gdsStock">
-								<span>재고 </span>
-								<fmt:formatNumber pattern="###,###,###" value="${view.gdsStock}" />
-								EA
-							</p>
-
-							<p class="cartStock">
-								<span>구입 수량</span> <input type="number" cmin="1"
-									max="${view.gdsStock}" min="1" value="1" />
-							</p>
-
-
-							<p class="addToCart">
-								<button type="button" class="addCart_btn">카트에 담기</button>
-								
-								
- 
- <script>
- $(".addCart_btn").click(function(){
-  var gdsNum = $("#gdsNum").val();
-  var cartStock = $(".numBox").val();
-           
-  var data = {
-    gdsNum : gdsNum,
-    cartStock : cartStock
-    };
-  
-  $.ajax({
-   url : "/shop/view/addCart",
-   type : "post",
-   data : data,
-   success : function(result){
-    
-    if(result == 1) {
-     alert("카트 담기 성공");
-     $(".numBox").val("1");
-    } else {
-     alert("회원만 사용할 수 있습니다.")
-     $(".numBox").val("1");
-    }
-   },
-   error : function(){
-    alert("카트 담기 실패");
-   }
-  });
- });
-</script>
-</p>
-								
+	<nav id="nav">
+		<div id="nav_box">
+			<%@ include file="../include/nav.jsp" %>
+		</div>
+	</nav>
+	
+	<section id="container">
+		<div id="container_box">
+		
+			<section id="content">
+				
+				<form role="form" method="post">
+					<input type="hidden" name="gdsNum" value="${view.gdsNum}" />
+				</form>
+				
+				<div class="goods">
+					<div class="goodsImg">
+						<img src="${view.gdsImg}">
+					</div>
+					
+					<div class="goodsInfo">
+						<p class="gdsName"><span>상품명</span>${view.gdsName}</p>
+						
+						<p class="cateName"><span>카테고리</span>${view.cateName}</p>
+						
+						<p class="gdsPrice">
+							<span>가격 </span><fmt:formatNumber pattern="###,###,###" value="${view.gdsPrice}" /> 원
+						</p>
+						
+						<p class="gdsStock">
+							<span>재고 </span><fmt:formatNumber pattern="###,###,###" value="${view.gdsStock}" /> EA
+						</p>
+						
+						<c:if test="${view.gdsStock != 0}">
+						
+						<p class="cartStock">
+							<span>구입 수량</span>
+							<button type="button" class="plus">+</button>
+							<input type="number" class="numBox" min="1" max="${view.gdsStock}" value="1" readonly="readonly"/>
+							<button type="button" class="minus">-</button>
 							
-						</div>
-				</section>
-			</div>
-		</section>
-
-		<div id="reply">
-
-			<c:if test="${member == null }">
-				<p>
-					소감을 남기시려면 <a href="/member/signin">로그인</a>해주세요
-				</p>
-			</c:if>
-
-			<c:if test="${member != null}">
-				<section class="replyForm">
-					<form role="form" method="post" autocomplete="off">
-
-						<input type="hidden" name="gdsNum" id="gdsNum"
-							value="${view.gdsNum}">
-
-						<div class="input_area">
-							<textarea name="repCon" id="repCon"></textarea>
-						</div>
-
-						<div class="input_area">
-							<button type="button" id="reply_btn">소감 남기기</button>
-
+							<input type="hidden" value="${view.gdsStock}" class="gdsStock_hidden" />
+							
+							<script src="/resources/js/user/shop/stockBtn.js"></script>
+													
+							
+						</p>
+						
+						<p class="addToCart">
+							<button type="button" class="addCart_btn">카트에 담기</button>
 							<script>
-								$("#reply_btn")
-										.click(
-												function() {
-
-													var formObj = $(".replyForm form[role='form']");
-													var gdsNum = $("#gdsNum")
-															.val();
-													var repCon = $("#repCon")
-															.val()
-
-													var data = {
-														gdsNum : gdsNum,
-														repCon : repCon
-													};
-
-													$
-															.ajax({
-																url : "/shop/view/registReply",
-																type : "post",
-																data : data,
-																success : function() {
-																	replyList();
-																	$("#repCon")
-																			.val(
-																					"");
-																}
-															});
-												});
+								$(".addCart_btn").click(function(){
+									
+									var gdsNum = $("#gdsNum").val();
+									var cartStock = $(".numBox").val();
+									
+									var data = {
+											gdsNum : gdsNum,
+											cartStock : cartStock
+											};
+									
+									$.ajax({
+										url : "/shop/view/addCart",
+										type : "post",
+										data : data,
+										success : function(result){
+											
+											if(result == 1) {
+												alert("카트 담기 성공");
+												$(".numBox").val("1");
+											} else {
+												alert("회원만 사용할 수 있습니다.")
+												$(".numBox").val("1");
+											}
+										},
+										error : function(){
+											alert("카트 담기 실패");
+										}
+									});
+								});
 							</script>
-
-						</div>
-
-					</form>
-				</section>
-			</c:if>
-
-			<section class="replyList">
-				<ol>
-					<%-- <c:forEach items="${reply}" var="reply">
-
-						<li>
-							<div class="userInfo">
-								<span class="userName">${reply.userName}</span> <span
-									class="date"><fmt:formatDate value="${reply.repDate}"
-										pattern="yyyy-MM-dd" /></span>
+						</p>
+						
+						</c:if>
+						
+						<c:if test="${view.gdsStock == 0}">
+							<p>상품 수량이 부족합니다.</p>						
+						</c:if>
+					</div>
+					
+					<div class="gdsDes">${view.gdsDes}</div>
+				</div>
+				
+				
+				<div id="reply">
+				
+					<c:if test="${member == null }">
+						<p>소감을 남기시려면 <a href="/member/signin">로그인</a>해주세요</p>
+					</c:if>
+					
+					<c:if test="${member != null}">
+					<section class="replyForm">
+						<form role="form" method="post" autocomplete="off">
+						
+							<input type="hidden" name="gdsNum" id="gdsNum" value="${view.gdsNum}">
+						
+							<div class="input_area">
+								<textarea name="repCon" id="repCon"></textarea>
 							</div>
-							<div class="replyContent">${reply.repCon}</div>
-						</li>
-					</c:forEach> --%>
-				</ol>
+							
+							<div class="input_area">
+								<button type="button" id="reply_btn">소감 남기기</button>
+								
+								<script>
+									$("#reply_btn").click(function(){
+										
+										var formObj = $(".replyForm form[role='form']");
+										var gdsNum = $("#gdsNum").val();
+										var repCon = $("#repCon").val();
+										
+										// ReplyVO 형태로 데이터 생성
+										var data = {
+												gdsNum : gdsNum,
+												repCon : repCon
+												};
+										
+										$.ajax({
+											url : "/shop/view/registReply",
+											type : "post",
+											data : data,
+											success : function(){
+												replyList();  // 리스트 새로고침
+												$("#repCon").val("");  // 텍스트에어리어를 초기화
+											}
+										});
+									});
+								</script>
+								
+							</div>
+							
+						</form>
+					</section>
+					</c:if>
+					
+					<section class="replyList">
 
-				<script>
-					replyList();
-				</script>
-
-				<script>
-					$(document).on("click",".modify",function() {
-								/* $(".replyModal").attr("style", "display:block;"); */
+						<ol>
+						<%--
+						<c:forEach items="${reply}" var="reply">
+							<li>
+					   			<div class="userInfo">
+					    			<span class="userName">${reply.userName}</span>
+					    			<span class="date"><fmt:formatDate value="${reply.repDate}" pattern="yyyy-MM-dd" /></span>
+					   			</div>
+					   			<div class="replyContent">${reply.repCon}</div>
+					  		</li>
+					  	</c:forEach>
+					  	 --%>
+					 	</ol>     
+					 	
+					 	<script>
+							replyList();
+						</script>
+						
+						<script>
+						
+							$(document).on("click", ".modify", function(){
+								//$(".replyModal").attr("style", "display:block;");
 								$(".replyModal").fadeIn(200);
-
+								
 								var repNum = $(this).attr("data-repNum");
 								var repCon = $(this).parent().parent().children(".replyContent").text();
-
+								
 								$(".modal_repCon").val(repCon);
-								$(".modal_modify_btn").attr("data-repNum",repNum);
-
+								$(".modal_modify_btn").attr("data-repNum", repNum);
+								
 							});
-
-					// 스크립트로 인해 생성된 HTML의 이벤트는 .click() 메서드를 사용할 수 없음
-					$(document).on("click", ".delete", function() {
-
-						// 사용자에게 삭제 여부를 확인
-						var deletConfirm = confirm("정말로 삭제하시겠습니까?");
-
-						if (deletConfirm) {
-
-							var data = {
-								repNum : $(this).attr("data-repNum")
-							}; // ReplyVO 형태로 데이터 생성
-
-							$.ajax({
-								url : "/shop/view/deleteReply",
-								type : "post",
-								data : data,
-								success : function(result) {
-
-									// result의 값에 따라 동작
-									if (result == 1) {
-										replyList(); // 리스트 새로고침
-									} else {
-										alert("작성자 본인만 할 수 있습니다.") // 본인이 아닌 경우										
-									}
-								},
-								error : function() {
-									// 로그인하지 않아서 에러가 발생한 경우
-									alert("로그인하셔야합니다.")
+													
+							// 스크립트로 인해 생성된 HTML의 이벤트는 .click() 메서드를 사용할 수 없음
+							$(document).on("click", ".delete", function(){
+								
+								// 사용자에게 삭제 여부를 확인
+								var deletConfirm = confirm("정말로 삭제하시겠습니까?"); 
+								
+								if(deletConfirm) {
+								
+									var data = {repNum : $(this).attr("data-repNum")};  // ReplyVO 형태로 데이터 생성
+									
+									$.ajax({
+										url : "/shop/view/deleteReply",
+										type : "post",
+										data : data,
+										success : function(result){
+											
+											// result의 값에 따라 동작
+											if(result == 1) {
+												replyList();  // 리스트 새로고침
+											} else {
+												alert("작성자 본인만 할 수 있습니다.")  // 본인이 아닌 경우										
+											}
+										},
+										error : function(){
+											// 로그인하지 않아서 에러가 발생한 경우
+											alert("로그인하셔야합니다.")
+										}
+									});
 								}
 							});
-						}
-					});
-				</script>
+						
+						</script>
 
+					</section>
+				
+				
+				</div>
 			</section>
-
+			
+			<aside id="aside">
+				<%@ include file="../include/aside.jsp" %>
+			</aside>
+			
 		</div>
-		<footer id="footer">
-			<div id="footer_box">
-				<%@ include file="../include/footer.jsp"%>
-			</div>
-		</footer>
+	</section>
 
-	</div>
-	<div class="replyModal">
+	<footer id="footer">
+		<div id="footer_box">
+			<%@ include file="../include/footer.jsp" %>
+		</div>		
+	</footer>
 
-		<div class="modalContent">
+</div>
 
-			<div>
-				<textarea class="modal_repCon" name="modal_repCon"></textarea>
-			</div>
 
-			<div>
-				<button type="button" class="modal_modify_btn">수정</button>
-				<button type="button" class="modal_cancel">취소</button>
-			</div>
+<div class="replyModal">
 
+	<div class="modalContent">
+		
+		<div>
+			<textarea class="modal_repCon" name="modal_repCon"></textarea>
 		</div>
-
-		<div class="modalBackground"></div>
-
+		
+		<div>
+			<button type="button" class="modal_modify_btn">수정</button>
+			<button type="button" class="modal_cancel">취소</button>
+		</div>
+		
 	</div>
+
+	<div class="modalBackground"></div>
 	
+</div>
+
 <script>
 $(".modal_modify_btn").click(function(){
 	var modifyConfirm = confirm("정말로 수정하시겠습니까?");
@@ -640,6 +645,7 @@ $(".modal_cancel").click(function(){
 	$(".replyModal").fadeOut(200);
 });
 </script>
+
 
 </body>
 </html>
