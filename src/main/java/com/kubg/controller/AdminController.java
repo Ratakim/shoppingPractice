@@ -194,7 +194,7 @@ public class AdminController {
 	  //상품 수량 조절
 	  List<OrderListVO> orderView = adminService.orderView(order);
 	  
-	  GoodsVO goods = new GoodsVO();
+	   GoodsVO goods = new GoodsVO();
 	  
 	  for(OrderListVO i : orderView) {
 		  goods.setGdsNum(i.getGdsNum());
