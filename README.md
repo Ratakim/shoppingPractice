@@ -167,3 +167,12 @@ alter table tbl_order_details
     add(
         delivery    varchar2(20)    default '배송준비'
     );
+    
+    alter table tbl_order
+    modify(userAddr1 varchar2(100));
+
+alter table tbl_order
+    modify(userAddr2 varchar2(100));
+   
+alter table tbl_order
+    modify(userAddr3 varchar2(100));
